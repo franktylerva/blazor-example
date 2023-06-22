@@ -1,0 +1,84 @@
+@page "/demoHotel"
+
+@using HiddenVilla_Server.Model
+@using HotelRoom = HiddenVilla_Server.Model.HotelRoom
+
+<h3>We will display hotel rooms and amenities here!</h3>
+
+<div class="border p-2 mt-2" style="background-color: azure">
+    <h2 class="text-info">Hotel Rooms</h2>
+    <div class="row container">
+        @foreach (var room in Rooms)
+        {
+            <HotelRoomComponent Room="@room"/>
+        }
+    </div>
+    <h2 class="text-info">Hotel Ammenities</h2>
+    <div class="row container">
+        @foreach (var ammenity in Ammenities)
+        {
+            <HotelAmmenityComponent Ammenity="@ammenity"/>
+        }
+    </div>
+</div>
+
+@code{
+
+    List<HotelRoom> Rooms = new List<HotelRoom>();
+
+    List<HotelAmmenity> Ammenities = new List<HotelAmmenity>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        Ammenities.Add( new HotelAmmenity
+        {
+            Id = 1,
+            Name = "Gym",
+            Description = "24x7 Gym is available."
+        });
+        
+        Ammenities.Add( new HotelAmmenity
+        {
+            Id = 2,
+            Name = "Swimming Pool",
+            Description = "Pool open from 6am to 10pm."
+        });
+        
+        Ammenities.Add( new HotelAmmenity
+        {
+            Id = 3,
+            Name = "Free Breakfast",
+            Description = "Free breakfast from 6am to 10am."
+        });
+        
+        Rooms.Add(new HotelRoom
+        {
+            Id = 1,
+            RoomName = "Villa Suite",
+            IsActive = true,
+            Price = 499,
+            BlazorRoomProps = new List<HotelRoomProp>
+            {
+                new HotelRoomProp{Id = 1, Name = "Sq Ft", Value = "100"},
+                new HotelRoomProp{Id = 2, Name = "Occupancy", Value = "3"}
+            }
+        });
+        
+        Rooms.Add(new HotelRoom
+        {
+            Id = 2,
+            RoomName = "Pool Suite",
+            IsActive = true,
+            Price = 699,
+            BlazorRoomProps = new List<HotelRoomProp>
+            {
+                new HotelRoomProp{Id = 1, Name = "Sq Ft", Value = "300"},
+                new HotelRoomProp{Id = 2, Name = "Occupancy", Value = "6"}
+            }
+        });
+        
+    }
+
+}

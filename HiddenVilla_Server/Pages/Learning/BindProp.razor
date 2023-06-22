@@ -1,0 +1,106 @@
+@page "/bindProp"
+
+@using HiddenVilla_Server.Model
+@using HotelRoom = HiddenVilla_Server.Model.HotelRoom
+
+<div class="bg-light border p-2">
+    <h2 class="bg-light border p-2">
+        First Room
+    </h2>
+    Room Name: @TheRoom.RoomName
+    Price: @TheRoom.Price
+    <br/>
+    <input type="number" @bind-value="@TheRoom.Price" @bind-value:event="oninput"/>
+    <br/>
+    <input type="checkbox" @bind-value="@TheRoom.IsActive" checked="@(TheRoom.IsActive?"checked":null)" /> IsActive
+
+    <div>This room is @(TheRoom.IsActive ? "Active" : "not Active")</div>
+
+    <br/>
+    <select @bind="selectedRoomProp">
+        @foreach (var prop in TheRoom.BlazorRoomProps)
+        {
+            <option value="@prop.Value">@prop.Name</option>
+        }
+    </select>
+    <span> = @selectedRoomProp</span>
+</div>
+
+<div>
+    <h2 class="text-info">Rooms List</h2>
+    <table class="table table-light table-responsive-sm">
+    
+        @foreach (var room in Rooms)
+        {
+            <tr>
+                <td>
+                    <input type="text" @bind-value="room.RoomName" @bind-value:event="oninput"/>
+                </td>
+                <td>
+                    <input type="text" @bind-value="room.Price" @bind-value:event="oninput"/>
+                </td>
+                @foreach (var roomProp in room.BlazorRoomProps)
+                {
+                    <td>@roomProp.Name = @roomProp.Value</td>
+                }
+            </tr>
+        }
+    </table>
+    <br />
+    @foreach (var room in Rooms)
+    {
+        <p>@room.RoomName's Price is @room.Price</p>
+    }
+</div>
+
+@code{
+
+    string selectedRoomProp = "";
+    List<HotelRoom> Rooms = new List<HotelRoom>();
+    
+    HotelRoom TheRoom = new HotelRoom
+    {
+        Id = 1,
+        RoomName = "Villa Suite",
+        IsActive = true,
+        Price = 499,
+        BlazorRoomProps = new List<HotelRoomProp>
+        {
+            new HotelRoomProp{Id = 1, Name = "Sq Ft", Value = "100"},
+            new HotelRoomProp{Id = 2, Name = "Occupancy", Value = "3"}
+        }
+    };
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        Rooms.Add(new HotelRoom
+        {
+            Id = 1,
+            RoomName = "Villa Suite",
+            IsActive = true,
+            Price = 499,
+            BlazorRoomProps = new List<HotelRoomProp>
+            {
+                new HotelRoomProp{Id = 1, Name = "Sq Ft", Value = "100"},
+                new HotelRoomProp{Id = 2, Name = "Occupancy", Value = "3"}
+            }
+        });
+        
+        Rooms.Add(new HotelRoom
+        {
+            Id = 2,
+            RoomName = "Pool Suite",
+            IsActive = true,
+            Price = 699,
+            BlazorRoomProps = new List<HotelRoomProp>
+            {
+                new HotelRoomProp{Id = 1, Name = "Sq Ft", Value = "300"},
+                new HotelRoomProp{Id = 2, Name = "Occupancy", Value = "6"}
+            }
+        });
+        
+    }
+
+}
