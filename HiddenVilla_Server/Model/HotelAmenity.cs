@@ -1,6 +1,6 @@
 namespace HiddenVilla_Server.Model;
 
-public class HotelAmmenity
+public class HotelAmenity
 {
     public int Id { get; set; }
     

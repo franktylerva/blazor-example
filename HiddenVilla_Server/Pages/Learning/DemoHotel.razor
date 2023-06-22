@@ -7,46 +7,52 @@
 
 <div class="border p-2 mt-2" style="background-color: azure">
     <h2 class="text-info">Hotel Rooms</h2>
+    <span>Rooms Selected - @SelectedRooms</span>
     <div class="row container">
         @foreach (var room in Rooms)
         {
-            <HotelRoomComponent Room="@room"/>
+            <HotelRoomComponent OnRoomCheckBoxSelection="RoomSelectedCounterChanged" Room="@room"/>
         }
     </div>
-    <h2 class="text-info">Hotel Ammenities</h2>
+    <h2 class="text-info">Hotel Amenities</h2>
     <div class="row container">
-        @foreach (var ammenity in Ammenities)
+        @foreach (var amenity in Amenities)
         {
-            <HotelAmmenityComponent Ammenity="@ammenity"/>
+            <HotelAmenityComponent OnAmenitySelection="AmenitySelectionChanged" Amenity="@amenity"/>
         }
     </div>
+    <span>Selected Aminity: @SelectedAmenity</span>
 </div>
 
 @code{
 
+    public int SelectedRooms { get; set; } = 0;
+    
+    public string SelectedAmenity { get; set; } = "";
+    
     List<HotelRoom> Rooms = new List<HotelRoom>();
 
-    List<HotelAmmenity> Ammenities = new List<HotelAmmenity>();
+    List<HotelAmenity> Amenities = new List<HotelAmenity>();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         
-        Ammenities.Add( new HotelAmmenity
+        Amenities.Add( new HotelAmenity
         {
             Id = 1,
             Name = "Gym",
             Description = "24x7 Gym is available."
         });
         
-        Ammenities.Add( new HotelAmmenity
+        Amenities.Add( new HotelAmenity
         {
             Id = 2,
             Name = "Swimming Pool",
             Description = "Pool open from 6am to 10pm."
         });
         
-        Ammenities.Add( new HotelAmmenity
+        Amenities.Add( new HotelAmenity
         {
             Id = 3,
             Name = "Free Breakfast",
@@ -81,4 +87,21 @@
         
     }
 
+    private void AmenitySelectionChanged(string SelectedAmenityName)
+    {
+        SelectedAmenity = SelectedAmenityName;
+    }
+    
+    private void RoomSelectedCounterChanged(bool isRoomSelected)
+    {
+        if (isRoomSelected)
+        {
+            SelectedRooms++;
+        }
+        else
+        {
+            SelectedRooms--;
+        }
+    }
+    
 }

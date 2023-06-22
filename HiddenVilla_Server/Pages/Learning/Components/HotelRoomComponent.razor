@@ -4,6 +4,7 @@
     <h4 class="text-secondary">
         Room - @Room.Id
     </h4>
+    <input type="checkbox" @onchange="RoomCheckBoxSelectionChanged"/>
     @Room.RoomName<br />
     @Room.Price.ToString("c")<br />
     <input type="checkbox" @bind-value="@Room.IsActive" checked="@(Room.IsActive?"checked":null)" /> IsActive
@@ -23,5 +24,14 @@
 @code {
     [Parameter]
     public Model.HotelRoom? Room { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnRoomCheckBoxSelection { get; set; }
+    
+    protected async Task RoomCheckBoxSelectionChanged(ChangeEventArgs e)
+    {
+        await OnRoomCheckBoxSelection.InvokeAsync((bool)e.Value);
+    }
+    
 }
 
